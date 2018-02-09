@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import AntsList from './components/AntsList.js';
+import AntsContainer from './components/AntsContainer.js';
 import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-client-preset';
 import gql from 'graphql-tag';
 import { ApolloProvider, graphql } from 'react-apollo';
@@ -10,8 +10,8 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-const antsListQuery = gql`
-   query antsListQuery {
+const antsContainerQuery = gql`
+   query antsContainerQuery {
      ants {
        name
        length
@@ -21,7 +21,7 @@ const antsListQuery = gql`
    }
  `;
 
-const AntsListWithData = graphql(antsListQuery)(AntsList);
+const AntsContainerWithData = graphql(antsContainerQuery)(AntsContainer);
 
 class App extends Component {
 
@@ -32,7 +32,7 @@ class App extends Component {
           <header className="App-header">
             <h1 className="App-title">ANT RACING</h1>
           </header>
-          <AntsListWithData />
+          <AntsContainerWithData />
         </div>
       </ApolloProvider>
     );
