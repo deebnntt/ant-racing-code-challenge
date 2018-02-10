@@ -97,12 +97,12 @@ import AllButton from './AllButton'
           { this.state.loading ? 'Loading...' : null }
          </div>
         <div className="ant-card-header">
-          <div className="card-column">Name</div>
-          <div className="card-column">Length</div>
-          <div className="card-column">Color</div>
-          <div className="card-column">Weight</div>
-          <div className="card-column">Odds</div>
-          <div className="card-column"></div>
+          <div className="header-column">NAME</div>
+          <div className="header-column">LENGTH</div>
+          <div className="header-column">COLOR</div>
+          <div className="header-column">WEIGHT</div>
+          <div className="header-column">ODD</div>
+          <div className="header-column"></div>
         </div>
           { this.state.ants ? mappedAnts : null }
        </div>
