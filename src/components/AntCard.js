@@ -11,9 +11,8 @@ import Button from './Button.js'
          <p>Length: {this.props.length}</p>
          <p>Color: {this.props.color}</p>
          <p>Weight: {this.props.weight}</p>
-         <p>Odds: {this.props.likelihood}</p>
+         <p>Odds: {this.props.likelihood ? this.props.likelihood : "Not yet calculated"}</p>
          <Button handleCalculate={this.props.handleCalculate} name={this.props.name}/>
-         <p>Status: {this.props.status}</p>
        </div>
      )
    }

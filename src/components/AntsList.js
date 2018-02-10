@@ -1,6 +1,7 @@
 import React from 'react'
-import AntCard from './AntCard.js';
-import generateAntWinLikelihoodCalculator from "../helpers/calculator";
+import AntCard from './AntCard.js'
+import generateAntWinLikelihoodCalculator from '../helpers/calculator'
+import AllButton from './AllButton'
 
  class AntsList extends React.Component {
    state = {
@@ -13,7 +14,6 @@ import generateAntWinLikelihoodCalculator from "../helpers/calculator";
        ants: this.props.ants.map(ant => ({
         ...ant,
         likelihood: null,
-        status: 'not yet run'
        }))
      })
    }
@@ -24,18 +24,44 @@ import generateAntWinLikelihoodCalculator from "../helpers/calculator";
      })
    }
 
+   findAntByName = (antName) => {
+     let ants = this.state.ants
+     let ant = ants.filter(a => a.name === antName)
+     return ant[0]
+   }
+
+   handleCalculateAll = () => {
+     this.setLoading(true)
+     this.updateAll()
+   }
+
+   updateAll = () => {
+     this.state.ants.forEach(a => {
+       let newAnt = this.findAntByName(a.name)
+       this.updateAnt(newAnt)
+     })
+   }
+
    handleCalculate = (event) => {
      this.setLoading(true)
      let antName = event.target.value
-     this.getLikelihood(antName)
+     let newAnt = this.findAntByName(antName)
+     this.updateAnt(newAnt)
    }
 
-  getLikelihood = (antName) => {
-    let ants = this.state.ants
-    let ant = ants.filter(a => a.name === antName)
-    let newAnt = ant[0]
+   updateAnt = (ant) => {
+     this.setAntStatus(ant)
+     this.getLikelihood(ant)
+   }
+
+   setAntStatus = (ant) => {
+     let updatedAnt = { ...ant, likelihood: 'calculating...' }
+     this.reRenderAnt(updatedAnt)
+   }
+
+  getLikelihood = (ant) => {
     generateAntWinLikelihoodCalculator()(res => {
-      let updatedAnt = { ...newAnt, likelihood: (res * 100).toFixed(2) }
+      let updatedAnt = { ...ant, likelihood: (res * 100).toFixed(2) }
       this.reRenderAnt(updatedAnt)
     })
   }
@@ -48,7 +74,6 @@ import generateAntWinLikelihoodCalculator from "../helpers/calculator";
     let ants = this.state.ants
     let index = ants.findIndex(a => a.name === ant.name)
     let updatedAnts = [...ants.slice(0, index), ant, ...ants.slice(index + 1)]
-    console.log(updatedAnts)
     let sorted = this.sortAnts(updatedAnts)
     this.setState({
        ants: sorted,
@@ -64,6 +89,8 @@ import generateAntWinLikelihoodCalculator from "../helpers/calculator";
 
      return (
        <div>
+       <AllButton handleCalculateAll={this.handleCalculateAll}/>
+       <br />
           { this.state.loading ? 'Loading...' : null }
           { this.state.ants ? mappedAnts : null }
        </div>
