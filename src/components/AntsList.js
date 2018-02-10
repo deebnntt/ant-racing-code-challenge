@@ -32,7 +32,9 @@ import AllButton from './AllButton'
 
    handleCalculateAll = () => {
      this.setLoading(true)
-     this.updateAll()
+     setTimeout(() => {
+       this.updateAll()
+    }, 1000);
    }
 
    updateAll = () => {
@@ -89,9 +91,19 @@ import AllButton from './AllButton'
 
      return (
        <div>
-       <AllButton handleCalculateAll={this.handleCalculateAll}/>
-       <br />
+         <div className="button-div">
+          <AllButton handleCalculateAll={this.handleCalculateAll}/>
+          <br />
           { this.state.loading ? 'Loading...' : null }
+         </div>
+        <div className="ant-card-header">
+          <div className="card-column">Name</div>
+          <div className="card-column">Length</div>
+          <div className="card-column">Color</div>
+          <div className="card-column">Weight</div>
+          <div className="card-column">Odds</div>
+          <div className="card-column"></div>
+        </div>
           { this.state.ants ? mappedAnts : null }
        </div>
      )

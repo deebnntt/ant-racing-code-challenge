@@ -7,12 +7,12 @@ import Button from './Button.js'
 
      return (
        <div className="ant-card">
-         <h2>{this.props.name}</h2>
-         <p>Length: {this.props.length}</p>
-         <p>Color: {this.props.color}</p>
-         <p>Weight: {this.props.weight}</p>
-         <p>Odds: {this.props.likelihood ? this.props.likelihood : "Not yet calculated"}</p>
-         <Button handleCalculate={this.props.handleCalculate} name={this.props.name}/>
+         <div className="card-column"><strong>{this.props.name}</strong></div>
+         <div className="card-column">{this.props.length}</div>
+         <div className="card-column">{this.props.color}</div>
+         <div className="card-column">{this.props.weight}</div>
+         <div className="card-column">{this.props.likelihood ? this.props.likelihood : "Not yet calculated"}</div>
+         <div className="card-column"><Button handleCalculate={this.props.handleCalculate} name={this.props.name}/></div>
        </div>
      )
    }
