@@ -1,5 +1,5 @@
 function generateAntWinLikelihoodCalculator() {
-	var delay = 7000 + Math.random() * 7000;
+	var delay = 2000 + Math.random() * 2000;
 	var likelihoodOfAntWinning = Math.random();
 
 	return function(callback) {

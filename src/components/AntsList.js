@@ -4,28 +4,57 @@ import generateAntWinLikelihoodCalculator from "../helpers/calculator";
 
  class AntsList extends React.Component {
    state = {
-     ants: []
-   };
+     ants: [],
+     loading: false
+   }
 
    componentDidMount() {
      this.setState({
        ants: this.props.ants.map(ant => ({
         ...ant,
-        likelihood: 'Not Calculated',
+        likelihood: null,
         status: 'not yet run'
        }))
      })
    }
 
-  handleCalculate = (event) => {
-    let antName = event.target.value
-    let ant = this.state.ants.filter(a => {a.name === antName})
-    let index = this.state.ants.findIndex(a => {a.name === antName})
+   setLoading = (input) => {
+     this.setState({
+        loading: input
+     })
+   }
+
+   handleCalculate = (event) => {
+     this.setLoading(true)
+     let antName = event.target.value
+     this.getLikelihood(antName)
+   }
+
+  getLikelihood = (antName) => {
+    let ants = this.state.ants
+    let ant = ants.filter(a => a.name === antName)
+    let newAnt = ant[0]
     generateAntWinLikelihoodCalculator()(res => {
-      const updatedAnt = {...ant, likelihood: res }
+      let updatedAnt = { ...newAnt, likelihood: (res * 100).toFixed(2) }
+      this.reRenderAnt(updatedAnt)
     })
-    console.log(ant, index)
   }
+
+  sortAnts = (ants) => {
+    return ants.sort((a, b) => b.likelihood - a.likelihood)
+  }
+
+  reRenderAnt = (ant) => {
+    let ants = this.state.ants
+    let index = ants.findIndex(a => a.name === ant.name)
+    let updatedAnts = [...ants.slice(0, index), ant, ...ants.slice(index + 1)]
+    console.log(updatedAnts)
+    let sorted = this.sortAnts(updatedAnts)
+    this.setState({
+       ants: sorted,
+       loading: false
+    })
+  };
 
    render() {
 
@@ -35,7 +64,8 @@ import generateAntWinLikelihoodCalculator from "../helpers/calculator";
 
      return (
        <div>
-          {mappedAnts}
+          { this.state.loading ? 'Loading...' : null }
+          { this.state.ants ? mappedAnts : null }
        </div>
      )
    }
