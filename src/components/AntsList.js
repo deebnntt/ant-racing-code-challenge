@@ -101,7 +101,7 @@ import AllButton from './AllButton'
           <div className="header-column">LENGTH</div>
           <div className="header-column">COLOR</div>
           <div className="header-column">WEIGHT</div>
-          <div className="header-column">ODD</div>
+          <div className="header-column">ODDS</div>
           <div className="header-column"></div>
         </div>
           { this.state.ants ? mappedAnts : null }
