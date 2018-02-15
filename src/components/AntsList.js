@@ -30,12 +30,16 @@ import AllButton from './AllButton'
      return ant[0]
    }
 
+   /* event handler for calculate button
+      will show loading
+   */
    handleCalculateAll = () => {
      this.setLoading(true)
      setTimeout(() => {
        this.updateAll()
     }, 1000);
    }
+
 
    updateAll = () => {
      this.state.ants.forEach(a => {
@@ -44,6 +48,7 @@ import AllButton from './AllButton'
      })
    }
 
+   //event handler for calculate button
    handleCalculate = (event) => {
      this.setLoading(true)
      let antName = event.target.value
@@ -56,11 +61,13 @@ import AllButton from './AllButton'
      this.getLikelihood(ant)
    }
 
+   //sets status to show that ant odds are being calculated
    setAntStatus = (ant) => {
      let updatedAnt = { ...ant, likelihood: 'calculating...' }
      this.reRenderAnt(updatedAnt)
    }
 
+   //calls on generateAntWinLikelihoodCalculator helper & then sets ant state to new odds
   getLikelihood = (ant) => {
     generateAntWinLikelihoodCalculator()(res => {
       let updatedAnt = { ...ant, likelihood: (res * 100).toFixed(2) }
@@ -72,6 +79,7 @@ import AllButton from './AllButton'
     return ants.sort((a, b) => b.likelihood - a.likelihood)
   }
 
+  //updates ant state with new ant details
   reRenderAnt = (ant) => {
     let ants = this.state.ants
     let index = ants.findIndex(a => a.name === ant.name)
